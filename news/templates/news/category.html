@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block sidebar %}
+{% include 'inc/_sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="col-md-9">
+    {% for item in categories %}
+    <div class="card mb-10">
+        <div class="card-header">
+            Категория: <a href="{{ item.get_absolute_url }}">{{ item.title }}
+            <span class="badge bg-primary rounded-pill">{{ item.cnt }}</span>
+        </a>
+        </div>
+        <div class="card-body">
+            <div class="media">
+                {% if item.photo %}
+                <img src="{{ item.photo.url }}" alt="" width="350" class="float-start mb-3 ms-md-3">
+                {% else %}
+                <img src="https://picsum.photos/100" alt="" class="float-start mb-3 ms-md-3">
+                {% endif %}
+                <div class="media-body">
+                    <h5 class="card-title">{{ item.title }}</h5>
+                    <p class="card-text">{{ item.content|safe|linebreaks|truncatewords:50 }}</p>
+                    <a href="{{ item.get_absolute_url }}" class="btn btn-primary">Читать полностью...</a>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-muted">
+            {{ item.created_at }}
+        </div>
+    </div>
+    {% empty %}
+    к сожалению не опубликованно ни одной новости :(
+    {% endfor %}
+</div>
+{% endblock %}

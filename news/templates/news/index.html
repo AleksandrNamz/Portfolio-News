@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block sidebar %}
+{% include 'inc/_sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+{% for item in news %}
+<div class="card mb-10">
+    <div class="card-header">
+        Категория: <a href="{{ get_categories }}">{{ item.category }}</a>
+    </div>
+    <div class="card-body">
+        {% if item.photo %}
+        <img src="{{ item.photo.url }}" alt="" width="350" class="float-start mb-3 ms-md-3">
+        {% else %}
+        <img src="https://picsum.photos/350" alt="" class="float-start mb-3 ms-md-3">
+        {% endif %}
+        <h5 class="card-title">{{ item.title }}</h5>
+        <p class="card-text">{{ item.content|safe|linebreaks|truncatewords:50 }}</p>
+        <a href="{{ item.get_absolute_url }}" class="btn btn-primary">Читать полностью...</a>
+    </div>
+    <div class="card-footer text-muted">
+        {{ item.created_at }}
+    </div>
+</div>
+{% empty %}
+к сожалению не опубликованно ни одной новости :(
+{% endfor %}
+
+{% endblock %}
